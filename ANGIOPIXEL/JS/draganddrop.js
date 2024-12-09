@@ -7,7 +7,7 @@ let files;
 button.addEventListener("click", (e) => {input.click();});
 
 input.addEventListener("change", (e)=>{
-    files = this.files;
+    files = e.target.files;
     dropArea.classList.add("active");
     showFiles(files);
     dropArea.classList.remove("active");

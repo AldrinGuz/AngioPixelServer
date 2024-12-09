@@ -58,13 +58,28 @@ function guardar_reg(){
   })
 }
 
-async function aplicar(){
-  var filtro1 = document.getElementById("filtro1").value;
-  var filtro2 = document.getElementById("filtro2").value;
-  var filtro3 = document.getElementById("filtro3").value;
-  var modeloCNN = document.getElementById("CNN1");
- //FALTA IMPLEMENTAR
+async function aplicar() {
+  try {
+    const response = await fetch("/user/prueba", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("Error del servidor:", error);
+      return;
+    }
+
+    const data = await response.json();
+    console.log("Resultado del servidor:", data.result);
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+  }
 }
+
 
 function filtrar(){
   mover("filtros.html");

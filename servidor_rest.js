@@ -1,9 +1,14 @@
 var express = require("express");
 const multer = require('multer');
+const cors = require('cors');
 const path = require('path');
 const { exec } = require("child_process");
+const { spawn } = require("child_process");
+
 
 var app = express();
+// Habilitar CORS
+app.use(cors()); // Permite solicitudes desde cualquier origen
 
 app.use("/user", express.static("ANGIOPIXEL"));
 
@@ -76,6 +81,26 @@ app.post("user/run-python", (req, res) => {
         res.status(200).send({ output: stdout });
     });
 });
+
+app.post("/user/prueba",function(req,res){
+    const pythonProcess = spawn("python", ["CNN.py", 'ANGIOPIXEL/Local/p1_v1_00038.png']);
+    let result = "";
+    pythonProcess.stdout.on("data", (data) => {
+        result += data.toString();
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+        console.error(`Error: ${data.toString()}`);
+    });
+
+    pythonProcess.on("close", (code) => {
+        if (code !== 0) {
+            return res.status(500).send("Error procesando la imagen.");
+        }
+        res.json({ message: "Procesado exitosamente", result: result.trim() });
+    });
+    
+})
 
 
 //----------FUNCIONES---------//
