@@ -59,12 +59,34 @@ function guardar_reg(){
 }
 
 async function aplicar() {
+  const filtro1 = document.getElementById("check-filtro1");
+  const filtro2 = document.getElementById("check-filtro2");
+  const filtro3 = document.getElementById("check-filtro3");
+  const filtro4 = document.getElementById("check-filtro4");
+  const modelo1 = document.getElementById("check-modelo1");
+  const modelo2 = document.getElementById("check-modelo2");
+  const modelo3 = document.getElementById("check-modelo3");
+  const modelo4 = document.getElementById("check-modelo4");
+  const modelos = [];
+  const filtros = [];
+  if(filtro1.checked==true){filtros.push(filtro1.value);}
+  if(filtro2.checked==true){filtros.push(filtro2.value);}
+  if(filtro3.checked==true){filtros.push(filtro3.value);}
+  if(filtro4.checked==true){filtros.push(filtro4.value);}
+  if(modelo1.checked==true){modelos.push(modelo1.value);}
+  if(modelo2.checked==true){modelos.push(modelo2.value);}
+  if(modelo3.checked==true){modelos.push(modelo3.value);}
+  if(modelo4.checked==true){modelos.push(modelo4.value);}
+  let opciones = {modelos:modelos, filtros:filtros};
+  opciones = JSON.stringify(opciones);
+
   try {
     const response = await fetch("/user/prueba", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: opciones,
     });
 
     if (!response.ok) {
@@ -75,6 +97,13 @@ async function aplicar() {
 
     const data = await response.json();
     console.log("Resultado del servidor:", data.result);
+    var resultado = data.result;
+    var info = resultado.includes('Prediccion');
+    info = resultado.substr(171);
+    console.log(info);
+    info = parseFloat(info);
+    console.log(info);
+    document.getElementById("resultado").innerText=info;
   } catch (error) {
     console.error("Error en la solicitud:", error);
   }
@@ -82,29 +111,24 @@ async function aplicar() {
 
 
 function filtrar(){
+  var i=0;
+  for(var files of archivos){
+    if(files.length===undefined){
+      localStorage.setItem(i,files.name);
+      i++;
+      uploadFile(files);
+    }else{
+      for(const file of files){
+        localStorage.setItem(i,file.name);
+        i++;
+        uploadFile(file);
+      }
+    }
+  }
   mover("filtros.html");
-  //runPython();
 
 }
-async function runPython() {
-  const pyodide = await loadPyodide();
+//mostrará las img escogidas en filtros
+function mostrar_img(){
 
-  await pyodide.loadPackage(["numpy", "pillow"]);
-
-  // Obtener ruta de imagen desde el textarea
-  const rutaImagen = document.getElementById("ruta-imagen").value.trim();
-
-  // Verificar si el usuario ha proporcionado una ruta
-  if (!rutaImagen) {
-    document.getElementById("output").textContent = "Por favor, proporciona una ruta válida.";
-    return;
-  }
-  console.log(rutaImagen);
-  const pythonCode = document.getElementById('CNN').value;
-  try {
-    const result = pyodide.runPython(pythonCode);
-    console.log(result);
-  } catch (error) {
-    console.log(`Error:`+error);
-  }
 }

@@ -24,35 +24,42 @@
 <body>
     <div id="access" style="display: block;">
         <div class="wrapper">
-			
             <h1>ANGIOPIXEL</h1>
+			<h2>Imágenes</h2>
+			<div class="img-box">
+				<div class="img"></div>
+			</div>
             <h2>Filtros</h2>
-			<div class="acordeon">
-				<div class="accordion-item">
-					<h3 class="accordion-header">Seleccione los filtros que desea aplicar.</h3>
-					<div class="accordion-content">
-						<input type="checkbox" id="filtro1" name="filtro1" value="filtro1">
-						<label for="filtro1"> Aplicar filtro 1</label>
-						<input type="checkbox" id="filtro2" name="filtro2" value="filtro2">
-						<label for="filtro2"> Aplicar filtro 2</label>
-						<input type="checkbox" id="filtro3" name="filtro3" value="filtro3">
-						<label for="filtro3"> Aplicar filtro 3</label>
-					</div>
+			<div class="input-box">
+				<div class="filtros">
+					<input type="checkbox" value="Filtro1" id="check-filtro1">
+					<label for="check-filtro1">Filtro1</label>
+					<input type="checkbox" value="Filtro2" id="check-filtro2">
+					<label for="check-filtro2">Filtro2</label>
+					<input type="checkbox" value="Filtro3" id="check-filtro3">
+					<label for="check-filtro3">Filtro3</label>
+					<input type="checkbox" value="Filtro4" id="check-filtro4">
+					<label for="check-filtro4">Filtro4</label>
 				</div>
 			</div>
-			<p>Seleccione el modelo.
-			<div id="bloque-modelos">
-				<input type="radio" id="CNN1" name="modelo" value="CNN1">
-				<label for="CNN1">Modelo1</label><br>
-				<input type="radio" id="CNN2" name="modelo" value="CNN2">
-				<label for="CNN2">Modelo 2</label><br>
-				<input type="radio" id="CNN3" name="modelo" value="CNN3">
-				<label for="CNN3">Modelo 3</label>
-			</div></p>
+			<h2>Modelos</h2>
+			<div class="input-box">
+				<div class="filtros">
+					<input type="checkbox" value="CNN.py" id="check-modelo1">
+					<label for="check-modelo1">Modelo1</label>
+					<input type="checkbox" value="Modelo2" id="check-modelo2">
+					<label for="check-modelo2">Modelo2</label>
+					<input type="checkbox" value="Modelo3" id="check-modelo3">
+					<label for="check-modelo3">Modelo3</label>
+					<input type="checkbox" value="Modelo4" id="check-modelo4">
+					<label for="check-modelo4">Modelo4</label>
+				</div>
+			</div>
 			<div class="buttons">
                 <input type="button" value="Aplicar" id="btn-aplicar" onclick="aplicar()">
                 <input type="button" value="Volver" id="btn-volver" onclick="mover('sesion.html')">
             </div>
+			<div id="resultado"></div>
         </div>
     </div>
 		<!--Javascript-->

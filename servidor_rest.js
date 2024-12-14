@@ -10,7 +10,7 @@ var app = express();
 // Habilitar CORS
 app.use(cors()); // Permite solicitudes desde cualquier origen
 
-app.use("/user", express.static("ANGIOPIXEL"));
+app.use("/", express.static("ANGIOPIXEL"));
 
 app.use(express.json());
 
@@ -56,33 +56,16 @@ app.post("/user/upload",upload.single('file'),function(req,res){
     if(!req.file){
         return res.status(400).send({error:'No se han subido los archivos'});
     }
-    res.status(200).send({ message: 'File uploaded successfully', filePath: `/uploads/${req.file.filename}` });
+    res.status(200).send({ message: 'File uploaded successfully', filePath: `/ANGIOPIXEL/Local/${req.file.filename}` });
 })
 
 //--Ejecutar modelo en python--//
-app.post("user/run-python", (req, res) => {
-    // Ruta para ejecutar el archivo Python
-    const scriptPath = "CNN.py"; // Ruta al archivo Python
-    const args = req.body.args || []; // Argumentos opcionales para el script
 
-    const command = `python ${scriptPath} ${args.join(" ")}`;
-
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error ejecutando el script: ${error.message}`);
-            return res.status(500).send({ error: error.message });
-        }
-        if (stderr) {
-            console.error(`Error en el script: ${stderr}`);
-            return res.status(400).send({ error: stderr });
-        }
-
-        console.log(`Salida del script: ${stdout}`);
-        res.status(200).send({ output: stdout });
-    });
-});
 
 app.post("/user/prueba",function(req,res){
+    console.log(req.body);
+    var modelos = req.body.modelos;
+    var filtros = req.body.filtros;
     const pythonProcess = spawn("python", ["CNN.py", 'ANGIOPIXEL/Local/p1_v1_00038.png']);
     let result = "";
     pythonProcess.stdout.on("data", (data) => {

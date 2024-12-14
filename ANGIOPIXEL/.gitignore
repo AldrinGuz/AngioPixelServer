@@ -1,2 +1,2 @@
 #Ignoramos el archivo modelo (Supera el peso permitido por GitHub)
-*.h5
+#*.h5

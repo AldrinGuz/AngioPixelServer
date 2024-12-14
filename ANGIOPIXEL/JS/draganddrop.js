@@ -3,6 +3,7 @@ const dragText = dropArea.querySelector("p");
 const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-img");
 let files;
+let archivos = [];
 
 button.addEventListener("click", (e) => {input.click();});
 
@@ -10,6 +11,7 @@ input.addEventListener("change", (e)=>{
     files = e.target.files;
     dropArea.classList.add("active");
     showFiles(files);
+    archivos.push(files);
     dropArea.classList.remove("active");
 });
 dropArea.addEventListener("dragover", (e)=>{
@@ -26,6 +28,7 @@ dropArea.addEventListener("drop", (e)=>{
     e.preventDefault();
     files = e.dataTransfer.files;
     showFiles(files);
+    archivos.push(files);
     dropArea.classList.remove("active");
     dragText.textContent = "Arrastra y suelta tus imágenes";
 });
@@ -71,7 +74,7 @@ function processFile(file) {
             document.querySelector("#preview").innerHTML = image + html;
 
             // Llamar a uploadFile después de que el elemento exista
-            uploadFile(file, id);
+            //uploadFile(file, id);
         });
 
         fileReader.readAsDataURL(file);
@@ -81,7 +84,7 @@ function processFile(file) {
 }
 
 
-function uploadFile(file, id) {
+function uploadFile(file) {
     const formData = new FormData();
     formData.append("file",file);
     fetch('/user/upload', {
@@ -91,22 +94,22 @@ function uploadFile(file, id) {
     .then(data => {
         if (data.error) {
             console.log("Archivo no subido");
-            const statusElement = document.getElementById(id).querySelector(".status-text");
-            statusElement.textContent = "Archivo no subido";
-            statusElement.classList.add("failure");
+            //const statusElement = document.getElementById(id).querySelector(".status-text");
+            //statusElement.textContent = "Archivo no subido";
+            //statusElement.classList.add("failure");
         } else {
             console.log("Archivo subido");
             console.log(data);
-            const statusElement = document.getElementById(id).querySelector(".status-text");
-            statusElement.textContent = "Archivo subido";
-            statusElement.classList.add("success");
+            //const statusElement = document.getElementById(id).querySelector(".status-text");
+            //statusElement.textContent = "Archivo subido";
+            //statusElement.classList.add("success");
         }
     })
     .catch(error => {
         console.error('Error al subir el archivo:', error);
-        const statusElement = document.getElementById(id).querySelector(".status-text");
-        statusElement.textContent = "Error al subir";
-        statusElement.classList.add("failure");
+        //const statusElement = document.getElementById(id).querySelector(".status-text");
+        //statusElement.textContent = "Error al subir";
+        //statusElement.classList.add("failure");
     });
     /*
     rest.post("/user/upload",formData,function(estado,resp){

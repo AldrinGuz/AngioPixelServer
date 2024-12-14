@@ -11,21 +11,19 @@ def cnn():
     tamaño_imagen = (224, 224)
 
     # Cargar y preprocesar la imagen
-    def cargar_imagen(ruta, tamaño):
-        # Abrir la imagen con Pillow
-        imagen = Image.open(ruta).convert('RGB')  # Convertir a RGB si es necesario
-        # Redimensionar la imagen al tamaño esperado por el modelo
-        imagen = imagen.resize(tamaño)
-        # Convertir a un arreglo NumPy
-        imagen_array = np.array(imagen)
-        # Escalar los valores de píxeles al rango [0, 1] (opcional, según el modelo)
-        imagen_array = imagen_array / 255.0
-        # Agregar una dimensión para representar un lote de tamaño 1
-        imagen_array = np.expand_dims(imagen_array, axis=0)
-        return imagen_array
 
+    # Abrir la imagen con Pillow
+    imagen = Image.open(ruta_imagen).convert('RGB')  # Convertir a RGB si es necesario
+    # Redimensionar la imagen al tamaño esperado por el modelo
+    imagen = imagen.resize(tamaño_imagen)
+    # Convertir a un arreglo NumPy
+    imagen_array = np.array(imagen)
+    # Escalar los valores de píxeles al rango [0, 1] (opcional, según el modelo)
+    imagen_array = imagen_array / 255.0
+    # Agregar una dimensión para representar un lote de tamaño 1
+    imagen_array = np.expand_dims(imagen_array, axis=0)
     # Procesar la imagen
-    datos_entrada = cargar_imagen(ruta_imagen, tamaño_imagen)
+    datos_entrada = imagen_array
 
     # Verifica la forma de los datos procesados
     #print("Forma de los datos de entrada:", datos_entrada.shape)
@@ -46,7 +44,7 @@ def cnn():
 
 
     # Mostrar el resultado de la predicción
-    print("Predicción del modelo:", redondeo_prediccion)
+    print("Prediccion:", redondeo_prediccion)
     return redondeo_prediccion
 
 cnn()
