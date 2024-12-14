@@ -61,12 +61,11 @@ app.post("/user/upload",upload.single('file'),function(req,res){
 
 //--Ejecutar modelo en python--//
 
-
+/*
 app.post("/user/prueba",function(req,res){
-    console.log(req.body);
     var modelos = req.body.modelos;
     var filtros = req.body.filtros;
-    const pythonProcess = spawn("python", ["CNN.py", 'ANGIOPIXEL/Local/p1_v1_00038.png']);
+    const pythonProcess = spawn("python", [modelos[0], 'ANGIOPIXEL/Local/p1_v1_00038.png']);
     let result = "";
     pythonProcess.stdout.on("data", (data) => {
         result += data.toString();
@@ -80,11 +79,24 @@ app.post("/user/prueba",function(req,res){
         if (code !== 0) {
             return res.status(500).send("Error procesando la imagen.");
         }
+        var trim = result.trim();
+        console.log(trim.substring(171));
         res.json({ message: "Procesado exitosamente", result: result.trim() });
     });
     
 })
-
+*/
+app.post("/user/prueba",function(req,res){
+    var modelos = req.body.modelos;
+    var filtros = req.body.filtros;
+    
+    modelizar(modelos[0],'ANGIOPIXEL/Local/p1_v1_00038.png',function(cb){
+        if (cb == -1) {
+            return res.status(500).send("Error procesando la imagen.");
+        }
+        res.json({ message: "Procesado exitosamente", result: cb });
+    });
+})
 
 //----------FUNCIONES---------//
 function asigID(lista){
@@ -106,6 +118,29 @@ function incluir(objeto,lista){
     var o1 = Object.assign({id: asigID(lista)}, objeto);
     usuarios.push(o1);//problema, si se apaga el servidor todo se pierde
     return (201);
+}
+
+function modelizar(modelo,ruta,cb){
+    const pythonProcess = spawn("python", [modelo, ruta]);
+    let result = "";
+    pythonProcess.stdout.on("data", (data) => {
+        result += data.toString();
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+        console.error(`Error: ${data.toString()}`);
+    });
+
+    pythonProcess.on("close", (code) => {
+        if (code !== 0) {
+            cb(-1);
+            return -1;
+        }
+        var trim = result.trim();
+        console.log(trim.substring(171));
+        cb(trim);
+        return trim;
+    });
 }
 
 app.listen(3000);

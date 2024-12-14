@@ -58,7 +58,7 @@ function guardar_reg(){
   })
 }
 
-async function aplicar() {
+async function aplicar() {//debo añadir una forma de saber con que imagen quiero hacer lo siguiente
   const filtro1 = document.getElementById("check-filtro1");
   const filtro2 = document.getElementById("check-filtro2");
   const filtro3 = document.getElementById("check-filtro3");
@@ -98,11 +98,8 @@ async function aplicar() {
     const data = await response.json();
     console.log("Resultado del servidor:", data.result);
     var resultado = data.result;
-    var info = resultado.includes('Prediccion');
-    info = resultado.substr(171);
-    console.log(info);
-    info = parseFloat(info);
-    console.log(info);
+    var info = resultado.substr(171);
+    info = parseFloat(info);//Si me devuelve el valor null que se vuelva a pedir
     document.getElementById("resultado").innerText=info;
   } catch (error) {
     console.error("Error en la solicitud:", error);
