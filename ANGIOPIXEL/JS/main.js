@@ -105,13 +105,19 @@ function getModelos(){
   return modelos;
 }
 function enviar(){
+  var i = 0;
+  let prediccion = "";
   for(var mensaje of mensajes){
     llamada_py(mensaje,function(res){
-      console.log(res);
+      //console.log("Resultante de la operacion: "+res);
+      i = res.indexOf("Prediccion");
+      prediccion = res.substr(i);
+      document.getElementById("resultadoCNN").innerText=prediccion;
     });
   }
 }
 async function llamada_py(enviar,cb){
+  let result = "";
   var cuerpo = JSON.stringify(enviar);
   try {
     const response = await fetch("/user/prueba", {
@@ -130,12 +136,8 @@ async function llamada_py(enviar,cb){
 
     const data = await response.json();
     console.log("Resultado del servidor:", data.result);
-    var resultado = data.result;
-    var info = resultado.substr(171);
-    console.log(info);
-    //info = parseFloat(info);//A veces me devuelve NaN
-    cb(info);
-    return info;
+    result += data.result;
+    cb(result);
   } catch (error) {
     console.error("Error en la solicitud:", error);
   }
