@@ -67,7 +67,7 @@ function aplicar() {//debo añadir una forma de saber con que imagen quiero hace
   for(var file of archivos){
     if(imagen.getAttribute("class")==file.nombre){
       for(var modelo of modelos){
-        mensajes.push({img:file,modelo:modelo,filtros:filtros});
+        mensajes.push({img:file.nombre,modelo:modelo,filtros:filtros});
       }
     }//Si el usuario quiere rectidficar IMPLEMENTATR
   }

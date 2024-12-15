@@ -53,7 +53,7 @@ function processFile(file) {
 
         fileReader.addEventListener('load', e => {
             const fileUrl = fileReader.result;
-            archivos.push({nombre:file.name,url:fileUrl,data:file});
+            archivos.push({nombre:file.name,url:fileUrl});
             // Crear el HTML dinámico
             const image = `
                 <div id="${id}" class="file-container">

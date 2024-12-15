@@ -87,10 +87,10 @@ app.post("/user/prueba",function(req,res){
 })
 */
 app.post("/user/prueba",function(req,res){
-    //recibe {img:file,modelo:modelo,filtros:filtros}
+    //recibe {img:nombre,modelo:modelo,filtros:filtros}
     var mensaje = req.body;
     
-    modelizar(mensaje.modelo,'ANGIOPIXEL/Local/'+mensaje.img.name,function(cb){
+    modelizar(mensaje.modelo,'ANGIOPIXEL/Local/'+mensaje.img,function(cb){
         if (cb == -1) {
             return res.status(500).send("Error procesando la imagen.");
         }
@@ -137,7 +137,6 @@ function modelizar(modelo,ruta,cb){
             return -1;
         }
         var trim = result.trim();
-        console.log(trim.substring(171));
         cb(trim);
         return trim;
     });
