@@ -151,8 +151,8 @@ function filtrar(){
   const b_ret = document.getElementById("btn-izq");
   subida.setAttribute("style","display: none");
   filtrado.setAttribute("style","display: block");
-  b_sig.setAttribute("onclick","mostrar_img("+1+")");
-  b_ret.setAttribute("onclick","mostrar_img("+0+")");
+  b_sig.setAttribute("onclick","avance("+1+")");
+  b_ret.setAttribute("onclick","avance()");
   for(var files of archivos){
     uploadFile(files.data);//deberia subir las img al servidor solo cuando tenga claro que modelos y filtros usar
   }
@@ -164,3 +164,15 @@ function mostrar_img(posicion){
   elem_img.setAttribute("class",archivos[posicion].nombre);
 }
 //hacer botones de delante y atras
+function avance(num){
+  const btnIzq = document.getElementById("btn-izq");
+  const btnDer = document.getElementById("btn-der");
+  if((num-1) > -1){
+    btnIzq.setAttribute("onclick","avance("+(num-1)+")");
+    mostrar_img(num);
+  }
+  if((num+1) < archivos.length){
+    btnDer.setAttribute("onclick","avance("+(num+1)+")");
+    mostrar_img(num);
+  }
+}
