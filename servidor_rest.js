@@ -46,7 +46,7 @@ const storage = multer.diskStorage({
         cb(null, './ANGIOPIXEL/Local'); // Carpeta donde se almacenarán las imágenes
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        cb(null, `${file.originalname}`);
     }
 });
 
@@ -87,10 +87,10 @@ app.post("/user/prueba",function(req,res){
 })
 */
 app.post("/user/prueba",function(req,res){
-    var modelos = req.body.modelos;
-    var filtros = req.body.filtros;
+    //recibe {img:file,modelo:modelo,filtros:filtros}
+    var mensaje = req.body;
     
-    modelizar(modelos[0],'ANGIOPIXEL/Local/p1_v1_00038.png',function(cb){
+    modelizar(mensaje.modelo,'ANGIOPIXEL/Local/'+mensaje.img.name,function(cb){
         if (cb == -1) {
             return res.status(500).send("Error procesando la imagen.");
         }

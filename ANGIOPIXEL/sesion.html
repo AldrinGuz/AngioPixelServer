@@ -21,7 +21,7 @@
 		
 	</head>
 <body>
-    <div id="access" style="display: block;">
+    <div id="subida" style="display: block;">
         <div class="wrapper">
             <h1>ANGIOPIXEL</h1>
             <h2>Inicio</h2>
@@ -36,6 +36,53 @@
                 <input type="button" value="Siguiente" id="btn-filtrar" onclick="filtrar()">
                 <input type="button" value="Salir" id="btn-salir" onclick="mover('index.html')">
             </div>
+        </div>
+    </div>
+	<div id="filtrado" style="display: none;">
+        <div class="wrapper">
+            <h1>ANGIOPIXEL</h1>
+			<h2>Imágenes</h2>
+			<div class="img-box">
+				<div class="img">
+					<input type="button" value="Anterior" id="btn-izq" onclick="mostrar_img()">
+					<img src="" id="img123">
+					<input type="button" value="Siguiente" id="btn-der" onclick="mostrar_img()">
+				</div>
+			</div>
+            <h2>Filtros</h2>
+			<div class="input-box">
+				<div class="filtros">
+					<input type="checkbox" value="Filtro1" id="check-filtro1">
+					<label for="check-filtro1">Filtro1</label>
+					<input type="checkbox" value="Filtro2" id="check-filtro2">
+					<label for="check-filtro2">Filtro2</label>
+					<input type="checkbox" value="Filtro3" id="check-filtro3">
+					<label for="check-filtro3">Filtro3</label>
+					<input type="checkbox" value="Filtro4" id="check-filtro4">
+					<label for="check-filtro4">Filtro4</label>
+				</div>
+			</div>
+			<h2>Modelos</h2>
+			<div class="input-box">
+				<div class="filtros">
+					<input type="checkbox" value="CNN.py" id="check-modelo1">
+					<label for="check-modelo1">Modelo1</label>
+					<input type="checkbox" value="Modelo2" id="check-modelo2">
+					<label for="check-modelo2">Modelo2</label>
+					<input type="checkbox" value="Modelo3" id="check-modelo3">
+					<label for="check-modelo3">Modelo3</label>
+					<input type="checkbox" value="Modelo4" id="check-modelo4">
+					<label for="check-modelo4">Modelo4</label>
+				</div>
+			</div>
+			<div class="buttons">
+                <input type="button" value="Aplicar" id="btn-aplicar" onclick="aplicar()">
+				<input type="button" value="Siguiente" id="btn-aplicar" onclick="enviar()">
+                <input type="button" value="Volver" id="btn-volver" onclick="mover('sesion.html')"><!--Esto se ha de cambiar-->
+            </div>
+			<div id="resultadoCNN"></div>
+			<div id="resultado"></div>
+			<div id="resultado"></div>
         </div>
     </div>
 	<!--Javascript-->

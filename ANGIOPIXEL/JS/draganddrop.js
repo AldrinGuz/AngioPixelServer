@@ -4,6 +4,7 @@ const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-img");
 let files;
 let archivos = [];
+let mensajes = [];
 
 button.addEventListener("click", (e) => {input.click();});
 
@@ -11,7 +12,6 @@ input.addEventListener("change", (e)=>{
     files = e.target.files;
     dropArea.classList.add("active");
     showFiles(files);
-    archivos.push(files);
     dropArea.classList.remove("active");
 });
 dropArea.addEventListener("dragover", (e)=>{
@@ -28,7 +28,6 @@ dropArea.addEventListener("drop", (e)=>{
     e.preventDefault();
     files = e.dataTransfer.files;
     showFiles(files);
-    archivos.push(files);
     dropArea.classList.remove("active");
     dragText.textContent = "Arrastra y suelta tus imágenes";
 });
@@ -54,7 +53,7 @@ function processFile(file) {
 
         fileReader.addEventListener('load', e => {
             const fileUrl = fileReader.result;
-
+            archivos.push({nombre:file.name,url:fileUrl,data:file});
             // Crear el HTML dinámico
             const image = `
                 <div id="${id}" class="file-container">
