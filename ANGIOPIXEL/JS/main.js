@@ -57,29 +57,30 @@ function guardar_reg(){
     }
   })
 }
-
-function aplicar() {//debo añadir una forma de saber con que imagen quiero hacer lo siguiente
+/* Aplicar toma los datos actuales en pantalla (nombre img, filtros y modelos a aplicar) y los añade a var mensajes.
+Se puede ver desde consola.
+*/
+function aplicar() {
   const imagen = document.getElementById("img123");
   var modelos = getModelos();
   var filtros = getFiltros();
-  //Si se han seleccionado filtros deberia hacer que un condicional del servidor tome la ig le aplique el filtro y antes de enviarlo aplique otro etc. Solo devolvera un resultado
-  //Debo realizar una llama al servidor por cada modelo seleccionado
+  //Si el user quiere rectificar puede hacerlo
+  var mensajes_length = mensajes.length - 1;
+  for(var i = mensajes_length; i > -1;i--){
+    if(imagen.getAttribute("class")==mensajes[i].img){
+      mensajes.splice(i,1);
+    }
+  }
+  //
   for(var file of archivos){
     if(imagen.getAttribute("class")==file.nombre){
       for(var modelo of modelos){
         mensajes.push({img:file.nombre,modelo:modelo,filtros:filtros});
       }
-    }//Si el usuario quiere rectidficar IMPLEMENTATR
-  }
-  /*
-  for(var modelo of opciones.modelos){
-    if(modelo == "CNN.py"){
-      llamada_py(opciones,function(res){
-        document.getElementById("resultadoCNN").innerText=res;
-      });      
     }
-  }*/
+  }
 }
+/* Obtiene el valor de los filtros segun el estado checked*/
 function getFiltros(){
   const filtro1 = document.getElementById("check-filtro1");
   const filtro2 = document.getElementById("check-filtro2");
@@ -92,6 +93,7 @@ function getFiltros(){
   if(filtro4.checked==true){filtros.push(filtro4.value);}
   return filtros
 }
+/* Obtiene el valor de los modelos segun el estado checked*/
 function getModelos(){
   const modelo1 = document.getElementById("check-modelo1");
   const modelo2 = document.getElementById("check-modelo2");
@@ -104,12 +106,12 @@ function getModelos(){
   if(modelo4.checked==true){modelos.push(modelo4.value);}
   return modelos;
 }
+/* Se envia al servidor la lista de mensajes.*/
 function enviar(){
   var i = 0;
   let prediccion = "";
-  for(var mensaje of mensajes){
+  for(var mensaje of mensajes){//Hace una llamada al servidor tantas veces como modelos e img tiene que cargar
     llamada_py(mensaje,function(res){
-      //console.log("Resultante de la operacion: "+res);
       i = res.indexOf("Prediccion");
       prediccion = res.substr(i);
       document.getElementById("resultadoCNN").innerText=prediccion;
@@ -154,10 +156,10 @@ function filtrar(){
   b_sig.setAttribute("onclick","avance("+1+")");
   b_ret.setAttribute("onclick","avance()");
   for(var files of archivos){
-    uploadFile(files.data);//deberia subir las img al servidor solo cuando tenga claro que modelos y filtros usar
+    uploadFile(files.data);//Si la img ya existe (nombre del archivo ya esta dentro de /ANGIOPIXEL/Local/) el servidor devuelve error
   }
 }
-//mostrará las img escogidas en filtros
+/* Muestra por pantalla la img cuya posicion de lista archivos pasa por parametro */
 function mostrar_img(posicion){
   var elem_img = document.getElementById("img123");
   elem_img.setAttribute("src",archivos[posicion].url);

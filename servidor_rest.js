@@ -137,6 +137,10 @@ function modelizar(modelo,ruta,cb){
     });
 
     pythonProcess.on(`exit`, (code, signal) => {
+        /*if (code === 0) {
+            res.json({ message: result });
+          } else {
+            res.status(500).json({ error: 'Error ejecutando el script Python' });*/
         if (code) console.log(`Proceso termino con: ${code}`);
         if (signal) console.log(`Proceso kill con: ${signal}`);
         cb(result.trim());

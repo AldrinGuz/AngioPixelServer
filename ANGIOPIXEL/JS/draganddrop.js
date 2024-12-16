@@ -31,7 +31,7 @@ dropArea.addEventListener("drop", (e)=>{
     dropArea.classList.remove("active");
     dragText.textContent = "Arrastra y suelta tus imágenes";
 });
-
+/*Distinge entre un archivo o entre varios y los pasa por parametro UNO a UNO y no por lista*/
 function showFiles(files){
     console.log(files);
     if(files.length===undefined){
@@ -42,19 +42,19 @@ function showFiles(files){
         }
     }
 }
-
+/* Muestra por pantalla los archivos subidos*/
 function processFile(file) {
     const docType = file.type;
-    const validExtensions = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/dicom'];
+    const validExtensions = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/dicom'];//Impide archivos con extensiones no validas
 
     if (validExtensions.includes(docType)) {
         const fileReader = new FileReader();
-        const id = Math.random().toString(32).substring(7);
+        const id = Math.random().toString(32).substring(7);//Les asigna un id unico y aleatorio
 
         fileReader.addEventListener('load', e => {
             const fileUrl = fileReader.result;
             archivos.push({nombre:file.name,url:fileUrl});
-            // Crear el HTML dinámico
+            // Crear el HTML dinámico donde se muestra las img
             const image = `
                 <div id="${id}" class="file-container">
                     <img src="${fileUrl}" alt="${file.name}" width="50px">
@@ -71,9 +71,6 @@ function processFile(file) {
             // Agregar el contenido al DOM
             const html = document.querySelector("#preview").innerHTML;
             document.querySelector("#preview").innerHTML = image + html;
-
-            // Llamar a uploadFile después de que el elemento exista
-            //uploadFile(file, id);
         });
 
         fileReader.readAsDataURL(file);
@@ -82,7 +79,7 @@ function processFile(file) {
     }
 }
 
-
+/* Sube el archivo al servidor en la carpeta /ANGIOPIXEL/Local/*/
 function uploadFile(file) {
     const formData = new FormData();
     formData.append("file",file);
@@ -93,36 +90,15 @@ function uploadFile(file) {
     .then(data => {
         if (data.error) {
             console.log("Archivo no subido");
-            //const statusElement = document.getElementById(id).querySelector(".status-text");
-            //statusElement.textContent = "Archivo no subido";
-            //statusElement.classList.add("failure");
         } else {
             console.log("Archivo subido");
             console.log(data);
-            //const statusElement = document.getElementById(id).querySelector(".status-text");
-            //statusElement.textContent = "Archivo subido";
-            //statusElement.classList.add("success");
         }
     })
     .catch(error => {
         console.error('Error al subir el archivo:', error);
-        //const statusElement = document.getElementById(id).querySelector(".status-text");
-        //statusElement.textContent = "Error al subir";
-        //statusElement.classList.add("failure");
     });
-    /*
-    rest.post("/user/upload",formData,function(estado,resp){
-        if (estado == 403){
-            console.log("Archivo no subido");
-            const statusElement = document.getElementById(""+id).childNodes[3].childNodes[3];
-            statusElement.innerHTML = "<div class='failure'>Archivo no subido</div>";
-            return;
-        }
-        console.log("Archivo subido");
-        console.log(resp);
-        const statusElement = document.getElementById(""+id).childNodes[3].childNodes[3];
-        statusElement.innerHTML = "<div class='success'>Archivo subido</div>";
-    })*/
+
 }
 
 function eliminar(id){
@@ -131,18 +107,3 @@ function eliminar(id){
     const containerElement = document.getElementById(id);
     containerElement.remove();
 }
-
-/*
-function uploadFile(file, id) {
-    // Simulación de un tiempo de espera para representar la subida de archivos
-    setTimeout(() => {
-        const statusElement = document.getElementById(""+id).childNodes[3].childNodes[3];//<----------Especifidad: posibles errores a futuro
-
-        if (statusElement) {
-            statusElement.innerHTML = "<div class='success'>Archivo subido</div>";
-        } else {
-            console.error("No se encontró el elemento con ID: " + id);
-        }
-    }, 1000); // Simulamos un retraso para asegurar que el elemento existe
-}
-*/

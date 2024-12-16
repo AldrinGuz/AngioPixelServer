@@ -1,10 +1,12 @@
+import sys
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 
 def cnn():
     # Ruta de la imagen
-    ruta_imagen = 'ANGIOPIXEL/Local/p1_v1_00038.png'
+    ruta = sys.argv[1]
+    ruta_imagen = '' + ruta
 
 
     # Tamaño esperado por el modelo (ajusta según corresponda, por ejemplo: 224x224 para modelos como MobileNet)
