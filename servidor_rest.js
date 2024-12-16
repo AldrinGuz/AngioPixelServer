@@ -123,22 +123,24 @@ function incluir(objeto,lista){
 function modelizar(modelo,ruta,cb){
     const pythonProcess = spawn("python", [modelo, ruta]);
     let result = "";
-    pythonProcess.stdout.on("data", (data) => {
+    pythonProcess.stdout.on(`data`, (data) => {
         result += data.toString();
     });
 
-    pythonProcess.stderr.on("data", (data) => {
+    pythonProcess.stderr.on(`data`, (data) => {
         console.error(`Error: ${data.toString()}`);
     });
 
-    pythonProcess.on("close", (code) => {
-        if (code !== 0) {
-            cb(-1);
-            return -1;
-        }
-        var trim = result.trim();
-        cb(trim);
-        return trim;
+    pythonProcess.on(`error`, (error) => {
+        console.log(`error: ${error}`);
+        cb(error);
+    });
+
+    pythonProcess.on(`exit`, (code, signal) => {
+        if (code) console.log(`Proceso termino con: ${code}`);
+        if (signal) console.log(`Proceso kill con: ${signal}`);
+        cb(result.trim());
+        return result.trim();
     });
 }
 
