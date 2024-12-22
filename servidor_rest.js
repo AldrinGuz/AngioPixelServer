@@ -61,35 +61,10 @@ app.post("/user/upload",upload.single('file'),function(req,res){
 
 //--Ejecutar modelo en python--//
 
-/*
-app.post("/user/prueba",function(req,res){
-    var modelos = req.body.modelos;
-    var filtros = req.body.filtros;
-    const pythonProcess = spawn("python", [modelos[0], 'ANGIOPIXEL/Local/p1_v1_00038.png']);
-    let result = "";
-    pythonProcess.stdout.on("data", (data) => {
-        result += data.toString();
-    });
-
-    pythonProcess.stderr.on("data", (data) => {
-        console.error(`Error: ${data.toString()}`);
-    });
-
-    pythonProcess.on("close", (code) => {
-        if (code !== 0) {
-            return res.status(500).send("Error procesando la imagen.");
-        }
-        var trim = result.trim();
-        console.log(trim.substring(171));
-        res.json({ message: "Procesado exitosamente", result: result.trim() });
-    });
-    
-})
-*/
 app.post("/user/prueba",function(req,res){
     //recibe {img:nombre,modelo:modelo,filtros:filtros}
     var mensaje = req.body;
-    
+    console.log("Peticion de modelo");
     modelizar(mensaje.modelo,'ANGIOPIXEL/Local/'+mensaje.img,function(cb){
         if (cb == -1) {
             return res.status(500).send("Error procesando la imagen.");
@@ -137,10 +112,6 @@ function modelizar(modelo,ruta,cb){
     });
 
     pythonProcess.on(`exit`, (code, signal) => {
-        /*if (code === 0) {
-            res.json({ message: result });
-          } else {
-            res.status(500).json({ error: 'Error ejecutando el script Python' });*/
         if (code) console.log(`Proceso termino con: ${code}`);
         if (signal) console.log(`Proceso kill con: ${signal}`);
         cb(result.trim());

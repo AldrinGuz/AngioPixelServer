@@ -102,8 +102,12 @@ function uploadFile(file) {
 }
 
 function eliminar(id){
-    //Manda un cod de eliminación al server IMPLEMENTAR
-
     const containerElement = document.getElementById(id);
+    const img_name = containerElement.children[0].getAttribute("alt");
+    for(var i = (archivos.length-1); i > -1;i--){
+        if(archivos[i].nombre == img_name){
+            archivos.splice(i,1);
+        }
+    }
     containerElement.remove();
 }

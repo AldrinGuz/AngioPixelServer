@@ -114,7 +114,10 @@ function enviar(){
     llamada_py(mensaje,function(res){
       i = res.indexOf("Prediccion");
       prediccion = res.substr(i);
-      document.getElementById("resultadoCNN").innerText=prediccion;
+      if(res.indexOf("CNN")>-1){document.getElementById("resultadoCNN").innerText=prediccion;}
+      if(res.indexOf("angionet")>-1){document.getElementById("resultadoAngionet").innerText=prediccion;}
+      if(res.indexOf("yolo")>-1){document.getElementById("resultadoYolo").innerText=prediccion;}
+      if(res.indexOf("SVM")>-1){document.getElementById("resultadoSVM").innerText=prediccion;}
     });
   }
 }

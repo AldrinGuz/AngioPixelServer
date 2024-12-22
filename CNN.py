@@ -31,7 +31,7 @@ def cnn():
     #print("Forma de los datos de entrada:", datos_entrada.shape)
 
     # Cargar el modelo guardado en archivo.h5
-    modelo = tf.keras.models.load_model('ANGIOPIXEL/modelo_cnn.h5')
+    modelo = tf.keras.models.load_model('modelo_cnn.h5')
 
     # Mostrar un resumen del modelo (opcional)
     # modelo.summary()
@@ -39,14 +39,16 @@ def cnn():
     # Realizar predicción
     prediccion = modelo.predict(datos_entrada)
     redondeo_prediccion = round(prediccion[0][0],2)
-    if(redondeo_prediccion>=0.5):
-        print("Lesión")
-    else:
-        print("No lesión")
 
 
     # Mostrar el resultado de la predicción
-    print("Prediccion:", redondeo_prediccion)
+    print("Modelo: CNN")
+    
+    if(redondeo_prediccion>=0.5):
+        print("Prediccion: Tiene lesión")
+    else:
+        print("Prediccion: No tiene lesión")
+    print("Confianza:", redondeo_prediccion)
     return redondeo_prediccion
 
 cnn()
