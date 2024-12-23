@@ -57,6 +57,36 @@ function guardar_reg(){
     }
   })
 }
+/* Crea un enlace temporal con la finalidad de que el usuario pueda extraer sus resultados */
+function exportar(){
+  // Crea un Blob con el contenido
+  var c_archivos = [];
+  var arch;
+  for(var archivo of archivos){//Puedo quitar la url de img para que no sea un archivo tan grande
+    var arch = structuredClone(archivo);
+    delete arch.url
+    c_archivos.push(arch);
+  }
+  const blob = new Blob([JSON.stringify(c_archivos)], { type: 'text/plain' });
+
+  // Genera una URL para el Blob
+  const url = URL.createObjectURL(blob);
+
+  // Crea un elemento <a> para la descarga
+  const enlace = document.createElement('a');
+  enlace.href = url;
+  enlace.download = 'registro_modelo.txt'; // Nombre del archivo
+  enlace.setAttribute("style","display: none");
+
+  // Agrega el enlace al DOM, simula un clic y lo elimina
+  document.body.appendChild(enlace);
+  enlace.click();
+  document.body.removeChild(enlace);
+
+  // Libera la URL para optimizar recursos
+  URL.revokeObjectURL(url);
+
+}
 /* Aplicar toma los datos actuales en pantalla (nombre img, filtros y modelos a aplicar) y los añade a var mensajes.
 Se puede ver desde consola.
 */
