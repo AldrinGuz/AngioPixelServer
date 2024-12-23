@@ -107,17 +107,23 @@ function getModelos(){
   return modelos;
 }
 /* Se envia al servidor la lista de mensajes.*/
-function enviar(){
+function enviar(posicion){
   var i = 0;
   let prediccion = "";
+  var img_name = document.getElementById("img123").getAttribute("class");
   for(var mensaje of mensajes){//Hace una llamada al servidor tantas veces como modelos e img tiene que cargar
     llamada_py(mensaje,function(res){
-      i = res.indexOf("Prediccion");
-      prediccion = res.substr(i);
-      if(res.indexOf("CNN")>-1){document.getElementById("resultadoCNN").innerText=prediccion;}
-      if(res.indexOf("angionet")>-1){document.getElementById("resultadoAngionet").innerText=prediccion;}
-      if(res.indexOf("yolo")>-1){document.getElementById("resultadoYolo").innerText=prediccion;}
-      if(res.indexOf("SVM")>-1){document.getElementById("resultadoSVM").innerText=prediccion;}
+      i = res.result.indexOf("Prediccion");
+      prediccion = res.result.substr(i);
+      for(var p = (archivos.length-1); p > -1;p--){
+        if(img_name==archivos[p].nombre){
+          if(res.result.indexOf("CNN")>-1){archivos[p].CNN = prediccion;}
+          if(res.result.indexOf("SVM")>-1){archivos[p].SVM = prediccion;}
+          if(res.result.indexOf("yolo")>-1){archivos[p].YOLO = prediccion;}
+          if(res.result.indexOf("angionet")>-1){archivos[p].Angionet = prediccion;}
+        }
+      }
+      mostrar_img(posicion);
     });
   }
 }
@@ -140,9 +146,9 @@ async function llamada_py(enviar,cb){
     }
 
     const data = await response.json();
-    console.log("Resultado del servidor:", data.result);
-    result += data.result;
-    cb(result);
+    console.log("Resultado del servidor:", data.result.txt);
+    result += data.result.txt;
+    cb({img:data.result.img, result:result});
   } catch (error) {
     console.error("Error en la solicitud:", error);
   }
@@ -167,6 +173,16 @@ function mostrar_img(posicion){
   var elem_img = document.getElementById("img123");
   elem_img.setAttribute("src",archivos[posicion].url);
   elem_img.setAttribute("class",archivos[posicion].nombre);
+  var elem_CNN = document.getElementById("resultadoCNN");
+  var elem_SVM = document.getElementById("resultadoSVM");
+  var elem_YOLO = document.getElementById("resultadoYolo");
+  var elem_Angionet = document.getElementById("resultadoAngionet");
+  elem_CNN.innerText=archivos[posicion].CNN;
+  elem_SVM.innerText=archivos[posicion].SVM;
+  elem_YOLO.innerText=archivos[posicion].YOLO;
+  elem_Angionet.innerText=archivos[posicion].Angionet;
+  var elem_enviar = document.getElementById("btn-enviar");
+  elem_enviar.setAttribute("onclick","enviar("+posicion+")");
 }
 //hacer botones de delante y atras
 function avance(num){

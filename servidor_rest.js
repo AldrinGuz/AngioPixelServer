@@ -69,7 +69,7 @@ app.post("/user/prueba",function(req,res){
         if (cb == -1) {
             return res.status(500).send("Error procesando la imagen.");
         }
-        res.json({ message: "Procesado exitosamente", result: cb });
+        res.json({ message: "Procesado exitosamente", result: {img:mensaje.img, txt:cb}});
     });
 })
 
