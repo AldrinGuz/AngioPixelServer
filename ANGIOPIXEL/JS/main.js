@@ -240,8 +240,8 @@ function filtrar(){
   filtrado.setAttribute("style","display: block");
   b_sig.setAttribute("onclick","avance("+1+")");
   b_ret.setAttribute("onclick","avance()");
-  for(var files of archivos){
-    uploadFile(files.data);//Si la img ya existe (nombre del archivo ya esta dentro de /ANGIOPIXEL/Local/) el servidor devuelve error
+  for(var file of archivos){
+    uploadFile(file.url,file.nombre);//Si la img ya existe (nombre del archivo ya esta dentro de /ANGIOPIXEL/Local/) el servidor devuelve error
   }
 }
 /* Muestra por pantalla la img cuya posicion de lista archivos pasa por parametro */

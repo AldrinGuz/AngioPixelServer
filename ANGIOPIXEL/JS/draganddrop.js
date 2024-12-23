@@ -80,24 +80,40 @@ function processFile(file) {
 }
 
 /* Sube el archivo al servidor en la carpeta /ANGIOPIXEL/Local/*/
-function uploadFile(file) {
-    const formData = new FormData();
-    formData.append("file",file);
-    fetch('/user/upload', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            console.log("Archivo no subido");
-        } else {
-            console.log("Archivo subido");
-            console.log(data);
-        }
-    })
-    .catch(error => {
-        console.error('Error al subir el archivo:', error);
-    });
+function uploadFile(imageURL,nombre_img) {
+    // Descargar la imagen desde la URL y subirla al servidor
+    fetch(imageURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo descargar la imagen desde la URL');
+            }
+            return response.blob(); // Convertir la imagen en un Blob
+        })
+        .then(blob => {
+            // Crear un archivo simulado con el Blob
+            const file = new File([blob], nombre_img, { type: blob.type });
+
+            // Subir el archivo al servidor
+            const formData = new FormData();
+            formData.append("file", file);
+
+            return fetch('/user/upload', {
+                method: 'POST',
+                body: formData
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.log("Imagen no subida");
+            } else {
+                console.log("Imagen subida correctamente");
+                console.log(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error al procesar la imagen desde la URL:', error);
+        });
 
 }
 
