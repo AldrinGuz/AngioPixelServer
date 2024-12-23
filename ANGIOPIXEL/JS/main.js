@@ -58,7 +58,7 @@ function guardar_reg(){
   })
 }
 /* Crea un enlace temporal con la finalidad de que el usuario pueda extraer sus resultados */
-function exportar(){
+function exportar_reg(){
   // Crea un Blob con el contenido
   var c_archivos = [];
   var arch;
@@ -87,6 +87,52 @@ function exportar(){
   URL.revokeObjectURL(url);
 
 }
+function exportar_img(){
+  const elem_img = document.getElementById("img123");
+  var nombre_img = elem_img.getAttribute("class");
+  var url_img = elem_img.getAttribute("src");
+  descargarImagenDesdeURL(url_img,nombre_img);
+}
+/* Descarga de la img por url */
+function descargarImagenDesdeURL(url, nombreArchivo) {
+  // Crear una nueva imagen
+  const img = new Image();
+  img.crossOrigin = 'anonymous'; // Evita problemas de CORS
+
+  // Definir una acción cuando la imagen cargue
+  img.onload = () => {
+      // Crear un canvas del tamaño de la imagen
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Dibujar la imagen en el canvas
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      // Convertir el contenido del canvas a una URL de datos
+      const urlDescarga = canvas.toDataURL('image/png');
+
+      // Crear un enlace para descargar
+      const enlace = document.createElement('a');
+      enlace.href = urlDescarga;
+      enlace.download = nombreArchivo || 'imagen.png';
+      
+      // Simular un clic en el enlace
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+  };
+
+  // Manejar errores
+  img.onerror = () => {
+      console.error('Error al cargar la imagen desde la URL');
+  };
+
+  // Establecer la URL de la imagen
+  img.src = url;
+}
+
 /* Aplicar toma los datos actuales en pantalla (nombre img, filtros y modelos a aplicar) y los añade a var mensajes.
 Se puede ver desde consola.
 */
