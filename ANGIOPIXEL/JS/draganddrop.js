@@ -5,6 +5,7 @@ const input = dropArea.querySelector("#input-img");
 let files;
 let archivos = [];
 let mensajes = [];
+let filtrados = [];
 
 button.addEventListener("click", (e) => {input.click();});
 
@@ -53,7 +54,7 @@ function processFile(file) {
 
         fileReader.addEventListener('load', e => {
             const fileUrl = fileReader.result;
-            archivos.push({nombre:file.name,url:fileUrl,CNN:"",SVM:"",Angionet:"",YOLO:""});
+            archivos.push({nombre:file.name,url:fileUrl,org_url:fileUrl,CNN:"",SVM:"",Angionet:"",YOLO:""});
             // Crear el HTML dinámico donde se muestra las img
             const image = `
                 <div id="${id}" class="file-container">

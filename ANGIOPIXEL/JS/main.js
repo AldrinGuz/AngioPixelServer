@@ -151,10 +151,13 @@ function aplicar() {
   for(var file of archivos){
     if(imagen.getAttribute("class")==file.nombre){
       for(var modelo of modelos){
-        mensajes.push({img:file.nombre,modelo:modelo,filtros:filtros});
+        for(var filtro of filtros){
+          mensajes.push({img:file.nombre,modelo:modelo,filtro:filtro});
+        }
       }
     }
   }
+  alert("Los cambios han sido guardados");
 }
 /* Obtiene el valor de los filtros segun el estado checked*/
 function getFiltros(){
@@ -184,6 +187,7 @@ function getModelos(){
 }
 /* Se envia al servidor la lista de mensajes.*/
 function enviar(posicion){
+  alert("Esta operación puede tardar unos minutos. Espere por favor");
   var i = 0;
   let prediccion = "";
   var img_name = document.getElementById("img123").getAttribute("class");
@@ -199,7 +203,7 @@ function enviar(posicion){
           if(res.result.indexOf("angionet")>-1){archivos[p].Angionet = prediccion;}
         }
       }
-      mostrar_img(posicion);
+      mostrar_img(posicion);// Si cambio de pantalla antes de que llegue los resultados?
     });
   }
 }
@@ -230,6 +234,68 @@ async function llamada_py(enviar,cb){
   }
 }
 
+function mostrar_filtro(){
+  var filtros = getFiltros();
+  var elem_img = document.getElementById("img123");
+  var url = elem_img.getAttribute("src");
+  var nombre = elem_img.getAttribute("class");
+  uploadFile(url,nombre);
+  console.log("Se ha guardado la img");
+  llamada_filtros(nombre,filtros,function(resp){
+    console.log(resp);
+    obtener_img(nombre);
+  });
+}
+
+function llamada_filtros(nombre,body,cb){
+  console.log("se hace la llamada a filtro");
+  body = JSON.stringify(body);
+  rest.post("user/filtrar/"+nombre,body,function(estado,resp){
+    if(estado==500){
+      console.log("Ha habido un error en el servidor");
+    }
+    cb(resp); // Se supone que debería darme un file img_filtro;
+  });
+}
+function obtener_img(nombre) {
+  fetch(`/user/obtener/${nombre}`, { method: 'POST' })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.blob(); // Convertir la respuesta en un Blob
+      })
+      .then(blob => {
+          // Crear una URL para el blob recibido
+          const fileUrl = URL.createObjectURL(blob);
+
+          // Asignar la URL generada al objeto correspondiente en 'archivos'
+          for (var archivo of archivos) {
+              if (archivo.nombre === nombre) {
+                  archivo.url = fileUrl;
+                  var elem_img = document.getElementById("img123");
+                  for(var archivo of archivos){
+                    if(archivo.nombre == elem_img.getAttribute("class")){
+                      elem_img.setAttribute("src",archivo.url);
+                    }
+                  }
+              }
+          }
+      })
+      .catch(error => {
+          console.error("Error al obtener la imagen:", error);
+      });
+}
+
+
+
+function revertir_img(posicion){
+  var elem_revertir_img = document.getElementById("btn-revertir-img");
+  var url = elem_revertir_img.getAttribute("src");
+  archivos[posicion].url=url;
+  mostrar_img(posicion);
+}
+
 function filtrar(){
   mostrar_img(0);
   const subida = document.getElementById("subida");
@@ -241,7 +307,7 @@ function filtrar(){
   b_sig.setAttribute("onclick","avance("+1+")");
   b_ret.setAttribute("onclick","avance()");
   for(var file of archivos){
-    uploadFile(file.url,file.nombre);//Si la img ya existe (nombre del archivo ya esta dentro de /ANGIOPIXEL/Local/) el servidor devuelve error
+    uploadFile(file.url,file.nombre);//Si la img ya existe (nombre del archivo ya esta dentro de /ANGIOPIXEL/Local/) el servidor sobreescribe el archivo
   }
 }
 /* Muestra por pantalla la img cuya posicion de lista archivos pasa por parametro */
@@ -259,6 +325,9 @@ function mostrar_img(posicion){
   elem_Angionet.innerText=archivos[posicion].Angionet;
   var elem_enviar = document.getElementById("btn-enviar");
   elem_enviar.setAttribute("onclick","enviar("+posicion+")");
+  var elem_revertir_img = document.getElementById("btn-revertir-img");
+  elem_revertir_img.setAttribute("src",archivos[posicion].org_url);
+  elem_revertir_img.setAttribute("onclick","revertir_img("+posicion+")");
 }
 //hacer botones de delante y atras
 function avance(num){

@@ -2,6 +2,7 @@ var express = require("express");
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const { exec } = require("child_process");
 const { spawn } = require("child_process");
 
@@ -72,6 +73,86 @@ app.post("/user/prueba",function(req,res){
         res.json({ message: "Procesado exitosamente", result: {img:mensaje.img, txt:cb}});
     });
 })
+
+//--Ejecutar filtro en python--//
+
+app.post("/user/filtrar/:nombre",function(req,res){
+    //recibe [fitros]
+    // Ruta de la carpeta donde están almacenadas las imágenes
+    const IMAGE_PATH = path.join(__dirname, 'ANGIOPIXEL/Local');
+    var mensaje = req.body;
+    var nombre=req.params['nombre'];
+    // Ruta completa del archivo
+    const filePath = path.join(IMAGE_PATH, nombre);
+    var filtros = mensaje;
+    var y = 0;
+    console.log("Peticion de filtros");
+    console.log(nombre,filtros);
+    var log = "";
+    for(var filtro of filtros){
+        filtrar(nombre,filtro,function(cb){
+            console.log("despues de filtrar");
+            if (cb == -1) {
+                return res.status(500).json("Error al filtrar la imagen.");
+            }
+            log += cb;
+            y++;
+            if(filtros.length==y){
+                console.log("Te envio ok");
+                res.status(300).json("Ya esta filtrada");
+            }
+        });
+    }
+})
+
+// Ruta base de las imágenes
+const IMAGE_PATH = path.join(__dirname, 'ANGIOPIXEL/Local');
+
+// Endpoint para obtener una imagen por nombre
+app.post("/user/obtener/:nombre", function (req, res) {
+    const nombre = req.params.nombre;
+
+    // Ruta completa del archivo
+    const filePath = path.join(IMAGE_PATH, nombre);
+
+    // Comprobar si el archivo existe
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ error: `File '${nombre}' not found` });
+    }
+
+    // Enviar el archivo al cliente
+    res.sendFile(filePath, { headers: { 'Content-Type': 'image/png' } }, (err) => {
+        if (err) {
+            console.error('Error sending file:', err);
+            res.status(500).json({ error: 'Error sending file' });
+        }
+    });
+});
+
+function filtrar(nombre,filtro,cb){
+    console.log("Comienza a filtrar..")
+    const ruta = 'ANGIOPIXEL/Local/'+ nombre;
+    const pythonProcess = spawn("python", [filtro, ruta]);
+    var result = "";
+    pythonProcess.stdout.on(`data`, (data) => {
+        result += data.toString();
+    });
+
+    pythonProcess.stderr.on(`data`, (data) => {
+        console.error(`Error: ${data.toString()}`);
+    });
+
+    pythonProcess.on(`error`, (error) => {
+        console.log(`error: ${error}`);
+        cb(error);
+    });
+
+    pythonProcess.on(`exit`, (code, signal) => {
+        if (code) console.log(`Proceso termino con: ${code}`);
+        if (signal) console.log(`Proceso kill con: ${signal}`);
+        cb(result.trim());
+    });
+}
 
 //----------FUNCIONES---------//
 function asigID(lista){
