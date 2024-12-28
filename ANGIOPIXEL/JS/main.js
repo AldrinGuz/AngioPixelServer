@@ -64,7 +64,8 @@ function exportar_reg(){
   var arch;
   for(var archivo of archivos){//Puedo quitar la url de img para que no sea un archivo tan grande
     var arch = structuredClone(archivo);
-    delete arch.url
+    delete arch.url;
+    delete arch.org_url;
     c_archivos.push(arch);
   }
   const blob = new Blob([JSON.stringify(c_archivos)], { type: 'text/plain' });
@@ -139,7 +140,6 @@ Se puede ver desde consola.
 function aplicar() {
   const imagen = document.getElementById("img123");
   var modelos = getModelos();
-  var filtros = getFiltros();
   //Si el user quiere rectificar puede hacerlo
   var mensajes_length = mensajes.length - 1;
   for(var i = mensajes_length; i > -1;i--){
@@ -151,9 +151,7 @@ function aplicar() {
   for(var file of archivos){
     if(imagen.getAttribute("class")==file.nombre){
       for(var modelo of modelos){
-        for(var filtro of filtros){
-          mensajes.push({img:file.nombre,modelo:modelo,filtro:filtro});
-        }
+        mensajes.push({img:file.nombre,modelo:modelo});
       }
     }
   }
