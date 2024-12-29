@@ -2,6 +2,10 @@ from skimage.transform import resize
 import sys
 import cv2
 import numpy as np
+import io
+
+# Configurar salida estándar en UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Ruta del archivo SVM guardado
 MODEL_PATH = "svm.pkl"
@@ -54,10 +58,14 @@ if __name__ == "__main__":
         
         # Realiza la predicción
         label, confidence = predict(model, image_data)
+        if label == 1:
+            label = "No tiene lesión"
+        else:
+            label = "Tiene lesión"
         
         # Muestra el resultado
         print("Modelo: SVM")
-        print("Prediccion: ",label)
+        print("Predicción: ",label)
         print(f"Confianza: {confidence:.2f}%")
     
     except Exception as e:

@@ -2,6 +2,10 @@ import sys
 import tensorflow as tf
 from PIL import Image
 import numpy as np
+import io
+
+# Configurar salida estándar en UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def cnn():
     # Ruta de la imagen
@@ -41,14 +45,15 @@ def cnn():
     redondeo_prediccion = round(prediccion[0][0],2)
 
 
-    # Mostrar el resultado de la predicción
-    print("Modelo: CNN")
-    
-    if(redondeo_prediccion>=0.5):
-        print("Prediccion: Tiene lesión")
+    resultado = "Modelo: CNN\n"
+    if redondeo_prediccion >= 0.5:
+        resultado += "Predicción: Tiene lesión\n"
+        resultado += f"Confianza: {redondeo_prediccion*100}%"
     else:
-        print("Prediccion: No tiene lesión")
-    print("Confianza:", redondeo_prediccion)
-    return redondeo_prediccion
+        resultado += "Predicción: No tiene lesión\n"
+        resultado += f"Confianza: {(1-redondeo_prediccion)*100}%"
+
+    # Imprimir resultado codificado en UTF-8
+    print(resultado.encode('utf-8').decode('utf-8'))
 
 cnn()

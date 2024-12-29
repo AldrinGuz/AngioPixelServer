@@ -1,5 +1,9 @@
 from ultralytics import YOLO
 import sys
+import io
+
+# Configurar salida estándar en UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Ruta de la imagen
 ruta = sys.argv[1]
@@ -15,11 +19,12 @@ probs = resultado[0].probs
 class_index = probs.top1
 class_name = resultado[0].names[class_index]
 score = float(probs.top1conf.cpu().numpy())
+score = score*100
 
 print("Modelo: yolo")
 if(class_name == "nonlesion"):
-    print("Prediccion: No tiene lesion")
+    print("Predicción: No tiene lesión")
 else:
-    print("Prediccion: Tiene lesion")
+    print("Predicción: Tiene lesión")
 
 print(f"Confianza: {score:.2f}%")

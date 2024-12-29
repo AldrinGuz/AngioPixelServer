@@ -175,12 +175,12 @@ function getModelos(){
   const modelo1 = document.getElementById("check-modelo1");
   const modelo2 = document.getElementById("check-modelo2");
   const modelo3 = document.getElementById("check-modelo3");
-  const modelo4 = document.getElementById("check-modelo4");
+  //const modelo4 = document.getElementById("check-modelo4");
   const modelos = [];
   if(modelo1.checked==true){modelos.push(modelo1.value);}
   if(modelo2.checked==true){modelos.push(modelo2.value);}
   if(modelo3.checked==true){modelos.push(modelo3.value);}
-  if(modelo4.checked==true){modelos.push(modelo4.value);}
+  //if(modelo4.checked==true){modelos.push(modelo4.value);}
   return modelos;
 }
 /* Se envia al servidor la lista de mensajes.*/
@@ -191,17 +191,18 @@ function enviar(posicion){
   var img_name = document.getElementById("img123").getAttribute("class");
   for(var mensaje of mensajes){//Hace una llamada al servidor tantas veces como modelos e img tiene que cargar
     llamada_py(mensaje,function(res){
-      i = res.result.indexOf("Prediccion");
+      i = res.result.indexOf("Modelo");
+      console.log(i);
       prediccion = res.result.substr(i);
       for(var p = (archivos.length-1); p > -1;p--){
         if(img_name==archivos[p].nombre){
           if(res.result.indexOf("CNN")>-1){archivos[p].CNN = prediccion;}
           if(res.result.indexOf("SVM")>-1){archivos[p].SVM = prediccion;}
           if(res.result.indexOf("yolo")>-1){archivos[p].YOLO = prediccion;}
-          if(res.result.indexOf("angionet")>-1){archivos[p].Angionet = prediccion;}
+          if(res.result.indexOf("angionet")>-1){archivos[p].Angionet = prediccion;}//
         }
       }
-      mostrar_img(posicion);// Si cambio de pantalla antes de que llegue los resultados?
+      mostrar_img(posicion);
     });
   }
 }
@@ -212,7 +213,7 @@ async function llamada_py(enviar,cb){
     const response = await fetch("/user/prueba", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
       },
       body: cuerpo,
     });
@@ -320,7 +321,7 @@ function mostrar_img(posicion){
   elem_CNN.innerText=archivos[posicion].CNN;
   elem_SVM.innerText=archivos[posicion].SVM;
   elem_YOLO.innerText=archivos[posicion].YOLO;
-  elem_Angionet.innerText=archivos[posicion].Angionet;
+  //elem_Angionet.innerText="Resultado CNN\n"+archivos[posicion].Angionet;
   var elem_enviar = document.getElementById("btn-enviar");
   elem_enviar.setAttribute("onclick","enviar("+posicion+")");
   var elem_revertir_img = document.getElementById("btn-revertir-img");
