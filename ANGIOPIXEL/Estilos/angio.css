@@ -11,6 +11,46 @@ html {
 h1, h2, p#nombre {
     margin: 0;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-size: 3vh;
+}
+
+/* Estructura general */
+body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 100%;
+    background: aqua;
+    justify-items: center;
+    /*align-items: end;*/
+}
+
+/* Contenido principal */
+main {
+    padding: 20px;
+    /*overflow: auto;*/ /* Asegura que el contenido no desborde */
+}
+
+/* Footer */
+footer {
+    background-color: #008293;
+    color: white;
+    font-size: 0.7em;
+    padding: 1vh 2vh;
+    text-align: center;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    box-sizing: border-box; /* Incluye el padding en el tamaño total */
+}
+
 /*access*/
 .wrapper {
     margin-top: 1vh;
@@ -35,6 +75,11 @@ input#user, input#pass1 {
     width: 90%;
 }
 
+.accesibilidad{
+    border-radius: 20px;
+    background-color: #39fb9f;
+    padding: 1vh 2vh;
+}
 
 input[type="button"] {
     border-radius: 10px;
@@ -214,12 +259,6 @@ th:hover{
 .status-text{
     padding: 0 10px;
 }
-.success{
-    color: #000000;
-}
-.failure{
-    color: #f00;
-}
 /*----------------------------------*/
 .box-item{
     font-size: 4rem;
@@ -270,4 +309,45 @@ th:hover{
 @keyframes salto {
     from {top: 0rem;}
     to {top: -1.5rem;}
+}
+/*Cookies*/
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    display: none; /* Oculto por defecto */
+}
+
+.cookie-banner p {
+    margin: 0;
+    display: inline-block;
+}
+
+.cookie-banner a {
+    color: #00aaff;
+    text-decoration: underline;
+}
+
+.cookie-button {
+    background-color: #008293;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.cookie-button:hover {
+    background-color: #005f6b;
 }

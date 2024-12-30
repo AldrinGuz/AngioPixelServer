@@ -61,7 +61,7 @@ function processFile(file) {
                     <img src="${fileUrl}" alt="${file.name}" width="50px">
                     <div class="status">
                         <span>${file.name}</span>
-                        <span class="status-text">Loading...</span>
+                        <span class="status-text">Completado</span>
                     </div>
                     <div class="remove">
                         <input type="button" value="X" id="btn-eliminar" onclick="eliminar('${id}')">

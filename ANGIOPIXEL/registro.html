@@ -20,43 +20,59 @@
 		<!--Fuentes e iconos final-->
 	</head>
 <body>
-    <div id="medical_data" style="display: block;">
-        <div class ="wrapper2">
-            <h1>ANGIOPIXEL</h1>
-            <h2>Registro</h2>
-            <div class="input-box">
-                <div class="input-field">
-                    <label for="name1">Nombre:</label>
-                    <input type="text" class="name" id="name1">
-                    <i class='bx bxs-user'></i>
+    <main>
+        <div id="medical_data" style="display: block;">
+            <div class ="wrapper2">
+                <h1>ANGIOPIXEL</h1>
+                <h2>Registro</h2>
+                <div class="input-box">
+                    <div class="input-field">
+                        <label for="name1">Nombre:</label>
+                        <input type="text" class="name" id="name1">
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    <div class="input-field">
+                        <label for="lastname1">Apellidos:</label>
+                        <input type="text" class="lastname" id="lastname1">
+                        <i class='bx bxs-user'></i>
+                    </div>
                 </div>
-                <div class="input-field">
-                    <label for="lastname1">Apellidos:</label>
-                    <input type="text" class="lastname" id="lastname1">
-                    <i class='bx bxs-user'></i>
+                <div class="input-box">
+                    <div class="input-field">
+                        <label for="login">Login:</label>
+                        <input type="text" class="login" id="login">
+                        <i class='bx bxs-user-rectangle'></i>
+                    </div>
+                    <div class="input-field">
+                        <label for="pass2">Contraseña:</label>
+                        <input type="password" class="pass" id="pass2">
+                        <i class='bx bxs-lock-alt' ></i>
+                    </div>
                 </div>
-            </div>
-            <div class="input-box">
-                <div class="input-field">
-                    <label for="login">Login:</label>
-                    <input type="text" class="login" id="login">
-                    <i class='bx bxs-user-rectangle'></i>
+                <div class="buttons">
+                    <input type="button" value="Guardar" id="g_reg" onclick="guardar_reg()" style="display: inline-block;">
+                    <input type="button" value="Cancelar" id="s_reg" onclick="mover('index.html')" style="display: inline-block;">
                 </div>
-                <div class="input-field">
-                    <label for="pass2">Contraseña:</label>
-                    <input type="password" class="pass" id="pass2">
-                    <i class='bx bxs-lock-alt' ></i>
-                </div>
-            </div>
-            <div class="buttons">
-                <input type="button" value="Guardar" id="g_reg" onclick="guardar_reg()" style="display: inline-block;">
-                <input type="button" value="Cancelar" id="s_reg" onclick="mover('index.html')" style="display: inline-block;">
             </div>
         </div>
+    </main>
+    <footer>
+        <p>Página creada por: Adrian Bordonado Triviño, Norberto Duque Alemañ, Ignacio Guarner Sala, Aldrin
+            Benjamín Guzmán Figueroa</p>
+        <P>Todos los derechos reservados.©AngioPixel 2024-2025</P>
+        <p><a href="accesibilidad.html" title="Pincha aqui para dirigirte a accesibidad" style="color:white"><i>&#9855;</i> Accesibilidad</a></p>
+    </footer>
+    <div id="cookie-consent" class="cookie-banner">
+        <p>
+            Usamos cookies para mejorar tu experiencia en este sitio. Al continuar navegando, aceptas nuestro uso de cookies.
+            <a href="/politica-de-cookies" target="_blank">Más información</a>.
+        </p>
+        <button id="accept-cookies" class="cookie-button">Aceptar</button>
     </div>
     <!--Javascript-->
 	<script src="JS/main.js"></script>
     <script src="JS/rest.js"></script>
+    <script src="JS/cookies.js"></script>
 	<!--Javascript fin-->
 </body>
 

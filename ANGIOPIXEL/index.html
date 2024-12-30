@@ -2,7 +2,6 @@
 <!--Pagina principal-->
 <html lang="es">
 	<head>
-        
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="author" content="Adrian Bordonado Triviño, Norberto Duque Alemañ, Ignacio Guarner Sala, Aldrin
@@ -21,31 +20,47 @@
 		<!--Fuentes e iconos final-->
 	</head>
 <body>
-    <div id="access" style="display: block;">
-        <div class="wrapper">
-            <h1>ANGIOPIXEL</h1>
-            <h2>Acceso</h2>
-            <div class="input-box">
-                <div class="input-field">
-                    <label for="user">Usuario:</label>
-                    <input type="text" class="user" id="user">
-                    <i class='bx bxs-user-rectangle'></i>
+    <main>
+        <div id="access" style="display: block;">
+            <div class="wrapper">
+                <h1>ANGIOPIXEL</h1>
+                <h2>Acceso</h2>
+                <div class="input-box">
+                    <div class="input-field">
+                        <label for="user">Usuario:</label>
+                        <input type="text" class="user" id="user">
+                        <i class='bx bxs-user-rectangle'></i>
+                    </div>
+                    <div class="input-field">
+                        <label for="pass1">Contraseña:</label>
+                        <input type="password" class="pass" id="pass1">
+                        <i class='bx bxs-lock-alt' ></i>
+                    </div>
                 </div>
-                <div class="input-field">
-                    <label for="pass1">Contraseña:</label>
-                    <input type="password" class="pass" id="pass1">
-                    <i class='bx bxs-lock-alt' ></i>
+                <div class="buttons">
+                    <input type="button" value="Entrar" id="btn-login" onclick="acceder()">
+                    <input type="button" value="Registrarse" id="btn-register" onclick="mover('registro.html')">
                 </div>
-            </div>
-            <div class="buttons">
-                <input type="button" value="Entrar" id="btn-login" onclick="acceder()">
-                <input type="button" value="Registrarse" id="btn-register" onclick="mover('registro.html')">
             </div>
         </div>
+    </main>
+    <footer>
+        <p>Página creada por: Adrian Bordonado Triviño, Norberto Duque Alemañ, Ignacio Guarner Sala, Aldrin
+            Benjamín Guzmán Figueroa</p>
+        <P>Todos los derechos reservados.©AngioPixel 2024-2025</P>
+        <p><a href="accesibilidad.html" title="Pincha aqui para dirigirte a accesibidad" style="color:white"><i>&#9855;</i> Accesibilidad</a></p>
+    </footer>
+    <div id="cookie-consent" class="cookie-banner">
+        <p>
+            Usamos cookies para mejorar tu experiencia en este sitio. Al continuar navegando, aceptas nuestro uso de cookies.
+            <a href="/politica-de-cookies" target="_blank">Más información</a>.
+        </p>
+        <button id="accept-cookies" class="cookie-button">Aceptar</button>
     </div>
     <!--Javascript-->
     <script src="JS/main.js"></script>
     <script src="JS/rest.js"></script>
+    <script src="JS/cookies.js"></script>
     <!--Javascript fin-->
 </body>
 
