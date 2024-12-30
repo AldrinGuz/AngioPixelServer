@@ -63,8 +63,14 @@
 				</div>
 			</div>
 			<div class="buttons">
+				<p>Una sola imágen.</p>
                 <input type="button" value="Mostrar" id="btn-mostrar" onclick="mostrar_filtro()">
 				<input type="button" value="Revertir" id="btn-revertir-img" onclick="revertir_img()">
+			</div>
+			<div class="buttons">
+				<p>A todas las imágenes.</p>
+				<input type="button" value="Mostrar todos" id="btn-mostrar-todos" onclick="mostrar_filtro_todos()">
+				<input type="button" value="Revertir todos" id="btn-revertir-img-todos" onclick="revertir_img_todos()">
             </div>
 			<h2>Modelos</h2>
 			<div class="input-box">
@@ -78,24 +84,34 @@
 				</div>
 			</div>
 			<div class="buttons">
-                <input type="button" value="Aplicar" id="btn-aplicar" onclick="aplicar()">
-				<input type="button" value="Siguiente" id="btn-enviar" onclick="enviar()">
-                <input type="button" value="Volver" id="btn-volver" onclick="mover('sesion.html')"><!--Esto se ha de cambiar-->
+				<p>Una sola imágen.</p>
+                <input type="button" value="Aplicar a uno" id="btn-aplicar" onclick="aplicar()">
+			</div>
+			<div class="buttons">
+				<p>A todas las imágenes.</p>
+				<input type="button" value="Aplicar a todos" id="btn-aplicar" onclick="aplicar_todos()">
+				<input type="button" value="Reiniciar" id="btn-aplicar" onclick="revertir_modelos()">
             </div>
 			<h2>Resultados</h2>
 			<div id="resultadoCNN"></div>
 			<div id="resultadoSVM"></div>
 			<div id="resultadoYolo"></div>
 			<div class="buttons" id="export">
+				<p>Archivos</p>
                 <input type="button" value="Exportar" id="btn-aplicar" onclick="exportar_reg()">
-				<input type="button" value="Descargar" id="btn-aplicar" onclick="exportar_img()">
+				<input type="button" value="Descargar" id="btn-aplicar" onclick="descargarImagenesComoZip()">
             </div>
+			<div class="buttons">
+				<input type="button" value="Clasificar" id="btn-enviar" onclick="enviar()">
+                <input type="button" value="Volver" id="btn-volver" onclick="mover('sesion.html')">
+			</div>
         </div>
     </div>
 	<!--Javascript-->
 	<script src="JS/main.js"></script>
 	<script src="JS/draganddrop.js"></script>
 	<script src="JS/rest.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 	<!--Javascript fin-->
 </body>
 

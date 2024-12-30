@@ -58,17 +58,16 @@ function guardar_reg(){
   })
 }
 /* Crea un enlace temporal con la finalidad de que el usuario pueda extraer sus resultados */
-function exportar_reg(){
-  // Crea un Blob con el contenido
-  var c_archivos = [];
-  var arch;
-  for(var archivo of archivos){//Puedo quitar la url de img para que no sea un archivo tan grande
-    var arch = structuredClone(archivo);
-    delete arch.url;
-    delete arch.org_url;
-    c_archivos.push(arch);
+function exportar_reg() {
+  // Crea un contenido CSV
+  let contenidoCSV = 'Nombre,CNN,SVM,YOLO\n'; // Encabezados del archivo CSV
+
+  for (var archivo of archivos) {
+    contenidoCSV += `${archivo.nombre},${archivo.CNN},${archivo.SVM},${archivo.YOLO}\n`;
   }
-  const blob = new Blob([JSON.stringify(c_archivos)], { type: 'text/plain' });
+
+  // Crea un Blob con el contenido CSV
+  const blob = new Blob([contenidoCSV], { type: 'text/csv' });
 
   // Genera una URL para el Blob
   const url = URL.createObjectURL(blob);
@@ -76,8 +75,8 @@ function exportar_reg(){
   // Crea un elemento <a> para la descarga
   const enlace = document.createElement('a');
   enlace.href = url;
-  enlace.download = 'registro_modelo.txt'; // Nombre del archivo
-  enlace.setAttribute("style","display: none");
+  enlace.download = 'registro_modelo.csv'; // Nombre del archivo
+  enlace.setAttribute('style', 'display: none');
 
   // Agrega el enlace al DOM, simula un clic y lo elimina
   document.body.appendChild(enlace);
@@ -86,8 +85,8 @@ function exportar_reg(){
 
   // Libera la URL para optimizar recursos
   URL.revokeObjectURL(url);
-
 }
+
 function exportar_img(){
   const elem_img = document.getElementById("img123");
   var nombre_img = elem_img.getAttribute("class");
@@ -134,6 +133,40 @@ function descargarImagenDesdeURL(url, nombreArchivo) {
   img.src = url;
 }
 
+async function descargarImagenesComoZip() {
+  var listaImagenes = archivos;
+  // Verifica que JSZip esté disponible
+  if (typeof JSZip === 'undefined') {
+    console.error('JSZip no está disponible. Asegúrate de incluir la biblioteca JSZip.');
+    return;
+  }
+
+  const zip = new JSZip(); // Crea una nueva instancia de JSZip
+  const carpeta = zip.folder('imagenes'); // Crea una carpeta dentro del ZIP
+
+  for (const item of listaImagenes) {
+    try {
+      const respuesta = await fetch(item.url); // Descarga la imagen
+      const blob = await respuesta.blob(); // Convierte la respuesta en un Blob
+      carpeta.file(item.nombre, blob); // Agrega el archivo al ZIP
+    } catch (error) {
+      console.error(`Error al descargar la imagen: ${item.url}`, error);
+    }
+  }
+
+  // Genera el archivo ZIP y descarga
+  zip.generateAsync({ type: 'blob' }).then((contenidoZip) => {
+    const enlace = document.createElement('a');
+    enlace.href = URL.createObjectURL(contenidoZip);
+    enlace.download = 'imagenes.zip';
+    enlace.style.display = 'none';
+    document.body.appendChild(enlace);
+    enlace.click();
+    document.body.removeChild(enlace);
+  });
+}
+
+
 /* Aplicar toma los datos actuales en pantalla (nombre img, filtros y modelos a aplicar) y los añade a var mensajes.
 Se puede ver desde consola.
 */
@@ -153,6 +186,19 @@ function aplicar() {
       for(var modelo of modelos){
         mensajes.push({img:file.nombre,modelo:modelo});
       }
+    }
+  }
+  alert("Los cambios han sido guardados");
+}
+function aplicar_todos(){
+  var modelos = getModelos();
+  var mensajes_length = mensajes.length - 1;
+  for(var i = mensajes_length; i > -1;i--){
+    mensajes.splice(i,1);
+  }
+  for(var file of archivos){
+    for(var modelo of modelos){
+      mensajes.push({img:file.nombre,modelo:modelo});
     }
   }
   alert("Los cambios han sido guardados");
@@ -188,14 +234,12 @@ function enviar(posicion){
   alert("Esta operación puede tardar unos minutos. Espere por favor");
   var i = 0;
   let prediccion = "";
-  var img_name = document.getElementById("img123").getAttribute("class");
   for(var mensaje of mensajes){//Hace una llamada al servidor tantas veces como modelos e img tiene que cargar
     llamada_py(mensaje,function(res){
       i = res.result.indexOf("Modelo");
-      console.log(i);
       prediccion = res.result.substr(i);
       for(var p = (archivos.length-1); p > -1;p--){
-        if(img_name==archivos[p].nombre){
+        if(res.img==archivos[p].nombre){
           if(res.result.indexOf("CNN")>-1){archivos[p].CNN = prediccion;}
           if(res.result.indexOf("SVM")>-1){archivos[p].SVM = prediccion;}
           if(res.result.indexOf("yolo")>-1){archivos[p].YOLO = prediccion;}
@@ -245,7 +289,20 @@ function mostrar_filtro(){
     obtener_img(nombre);
   });
 }
-
+function mostrar_filtro_todos(){
+  var filtros = getFiltros();
+  for(var archivo of archivos){
+    uploadFile(archivo.url,archivo.nombre);
+  }
+  for(var archivo of archivos){
+    var nombre = archivo.nombre;
+    var i = 0;
+    llamada_filtros(nombre,filtros,function(resp){
+      obtener_img(archivos[i].nombre);
+      i++;
+    })
+  }
+}
 function llamada_filtros(nombre,body,cb){
   console.log("se hace la llamada a filtro");
   body = JSON.stringify(body);
@@ -294,6 +351,20 @@ function revertir_img(posicion){
   archivos[posicion].url=url;
   mostrar_img(posicion);
 }
+function revertir_img_todos(posicion){
+  for(var archivo of archivos){
+    archivo.url=archivo.org_url;
+  }
+  mostrar_img(posicion);
+}
+function revertir_modelos(){
+  var modelos = getModelos();
+  var mensajes_length = mensajes.length - 1;
+  for(var i = mensajes_length; i > -1;i--){
+    mensajes.splice(i,1);
+  }
+  alert("Desechos todos los cambios");
+}
 
 function filtrar(){
   mostrar_img(0);
@@ -325,8 +396,10 @@ function mostrar_img(posicion){
   var elem_enviar = document.getElementById("btn-enviar");
   elem_enviar.setAttribute("onclick","enviar("+posicion+")");
   var elem_revertir_img = document.getElementById("btn-revertir-img");
+  var elem_revertir_img_todos = document.getElementById("btn-revertir-img-todos");
   elem_revertir_img.setAttribute("src",archivos[posicion].org_url);
   elem_revertir_img.setAttribute("onclick","revertir_img("+posicion+")");
+  elem_revertir_img_todos.setAttribute("onclick","revertir_img_todos("+posicion+")");
 }
 //hacer botones de delante y atras
 function avance(num){

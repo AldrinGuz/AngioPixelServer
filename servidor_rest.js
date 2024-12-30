@@ -99,7 +99,7 @@ app.post("/user/filtrar/:nombre",function(req,res){
             y++;
             if(filtros.length==y){
                 console.log("Te envio ok");
-                res.status(300).json("Ya esta filtrada");
+                res.status(300).json(cb);
             }
         });
     }
@@ -150,7 +150,7 @@ function filtrar(nombre,filtro,cb){
     pythonProcess.on(`exit`, (code, signal) => {
         if (code) console.log(`Proceso termino con: ${code}`);
         if (signal) console.log(`Proceso kill con: ${signal}`);
-        cb(result.trim());
+        cb(nombre);
     });
 }
 
