@@ -22,7 +22,7 @@ function acceder(){
       alert(resp);
       return;
     }
-    id_user=resp;
+    localStorage.setItem("token", resp);
     mover('sesion.html');
   })
 }
@@ -412,5 +412,12 @@ function avance(num){
   if((num+1) < archivos.length){
     btnDer.setAttribute("onclick","avance("+(num+1)+")");
     mostrar_img(num);
+  }
+}
+
+function tokenSesion(){
+  var item = localStorage.getItem("token");
+  if(item==null){
+    window.location='/index.html';
   }
 }
