@@ -54,7 +54,7 @@ function processFile(file) {
 
         fileReader.addEventListener('load', e => {
             const fileUrl = fileReader.result;
-            archivos.push({nombre:file.name,url:fileUrl,org_url:fileUrl,CNN:"",SVM:"",Angionet:"",YOLO:""});
+            archivos.push({nombre:file.name,url:fileUrl,org_url:fileUrl,CNN:"",SVM:"",Angionet:"",YOLO:"",filtros:[]});
             // Crear el HTML dinámico donde se muestra las img
             const image = `
                 <div id="${id}" class="file-container">

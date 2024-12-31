@@ -1,0 +1,72 @@
+Guía de uso de la página web AngioPixel.
+1. Inicio.
+2. Registro de usuario.
+3. Página de sesión .
+A. Drag and drop.
+B. Pantalla de imágenes. 
+C. Sección de filtrado.
+D. Sección de modelo.
+E. Sección de resultados.
+F. Sección de archivos.
+4. Página de accesibilidad 
+5. Página de política de cookies.
+
+1. Inicio.
+Es la página principal. Trata de un pequeño formulario que contiene dos entradas o campos en los que el usuario debe introducir su usuario y contraseña. ATENCIÓN: es un formulario case sensitive. Es decir, se debe escribir tal cual se haya registrado.
+Si el usuario se equivoca en el usuario o contraseña será notificado con una ventana del navegador.
+
+Hay dos botones.
+Entrar. Para entrar en la herramienta.
+Registrarse. Para registrar se.
+
+2. Registro de usuario.
+Trata de un formulario donde se piden los datos mínimos para el registro de un nuevo usuario. Los datos registrados se guardan en la base de datos y se mantienen de acuerdo a la ley de protección de datos vigente. Todos los campos son obligatorios. Una vez terminado el proceso la página notifica al usuario de el final del trámite. 
+El usuario puede terminar o cancelar el proceso de registro en cualquier momento.
+
+Hay dos botones.
+Guardar. Guarda todos los datos del formulario y los envía al servidor para crear el nuevo usuario y guardar dichos datos en la base de datos.
+Cancelar. Reedirige al usuario a la página de inicio.
+
+3. Página de sesión.
+La página consta de dos partes muy diferenciadas. Una primera para insertar las fotos o imágenes. Y una segunda para procesar dichos archivos.
+
+A. Drag and drops.
+El usuario podrá subir el o los archivos ya sea arrastrando los documentos en el cuadro distintivo o utilizando el botón en dicho cuadro. Esta acción permitirá subir los archivos.
+Por cada archivo subido podrá verse una miniatura de la misma junto con su nombre en la parte inferior. Si el usuario lo desea puede eliminar una o más imágenes de la selección utilizando el botón marcado con x a su derecha.
+
+Hay dos botones.
+Siguiente. El cual enviará las fotos al servidor para su posterior proceseamiento.
+Salir. El cual reedirige al usuario a incio.
+
+B. Pantalla de imágenes.
+Una vez subidas las imágenes se mostrarán dichas imágenes en un visor en la parte superior de la página. A sus lados hay dos botones para desplazarse entre imágenes. En el visor se mostrarán las imágenes después de ser filtrada, el resultado.
+
+Hay dos botones.
+Anterior. El visor mostrará la información de la imágen anterior en el listado de imágenes.
+Siguiente. El visor mostrará la información de la imágen posterior en el listado de imágenes.
+
+C. Sección de filtrado.
+La sección esta destinada a la parte de los controles para el filtrado de la imagen. Se diferencian dos partes, una destinada a la selección de los diferentes filtros y la otra a la elección de a que imágenes se le aplicarán. 
+El usuario podrá escoger entre aplicar el filtro o filtros seleccionados a una imagen, la imagen mostrada en el visor en ese mismo instante; o en todas las imágenes. ATENCIÓN: cada vez que se selecciona una filtro se sobrescribe la elección anterior. Ej: si se eligiera filtrar todos las imágenes con gradiente y luego se eligiera otro filtro en una imagen  individualmente, el resultado será todas las imágenes filtradas con gradiente menos la seleccionada con otro filtro. ATENCIÓN: la elección de multiples filtros en una imagen conlleva a una imagen filtrada por la suma de sus filtros, es decir, la imagen resultante de un filtro pasara por otro filtro hasta terminar de usar todos los filtros.
+
+Hay cuatro botones.
+Mostrar. Aplica el filtro o filtros seleccionados a una sola imágen la cual será la mostrada en la pantalla en el momento en el que se presionó el botón.
+Revertir. Elimina todos los cambios realizados a una sola imágen la cual será la mostrada en la pantalla en el momento en el que se presionó el botón.
+Mostrar todos. Aplica el filtro o filtros seleccionados a todas las imágenes.
+Revertir todos. Elimina todos los cambios realizados a todas las imágenes.
+
+D. Sección de modelo.
+La elección de modelos es similar a la de la selección anterior. La diferencia es el uso del botón clasificar. La elección de una o todas las imágenes se realiza el la sección de modelo, pero para realizar la clasificación se deberá pulsar el botón clasificar luego de realizar la selección. La selección se notificará cada vez que se guarden los cambios.
+ADVERTENCIA: el servidor contendrá mucha más capacidad y potencia de procesamiento, procuré no escoger todos los modelos a la vez y a demasiadas imágenes a la vez o el resultado tardará mucho en mostrarse.
+
+E. Sección de resultados.
+En esta sección se mostrarán los resultados que nos proporciona cada modelo luego de procesar y clasificar la imagen. Se mostrará el resultado de la predicción y la confianza en esta elección. ADVERTENCIA: los resultados se muestran individualmente, si desea ver todos los resultados consulte el csv resultante de exportar resultado.
+
+F. Sección de archivos.
+Consta de dos botones uno para exportar a csv con todos los resultados recibidos por el modelo y el otro para descargar un comprimido zip con las imágenes en el estado en el que se encontraban.
+
+4. Página de accesibilidad 
+Consta de una página donde se detalla la accesibilidad de la página.
+
+5. Página de política de cookies.
+Consta de una página donde se detalla la política de cookies de la página.

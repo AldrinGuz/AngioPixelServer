@@ -208,12 +208,10 @@ function getFiltros(){
   const filtro1 = document.getElementById("check-filtro1");
   const filtro2 = document.getElementById("check-filtro2");
   const filtro3 = document.getElementById("check-filtro3");
-  const filtro4 = document.getElementById("check-filtro4");
   const filtros = [];
   if(filtro1.checked==true){filtros.push(filtro1.value);}
   if(filtro2.checked==true){filtros.push(filtro2.value);}
   if(filtro3.checked==true){filtros.push(filtro3.value);}
-  if(filtro4.checked==true){filtros.push(filtro4.value);}
   return filtros
 }
 /* Obtiene el valor de los modelos segun el estado checked*/
@@ -278,6 +276,7 @@ async function llamada_py(enviar,cb){
 }
 
 function mostrar_filtro(){
+  alert("Esta operación puede tardar unos minutos. Espere, por favor.");
   var filtros = getFiltros();
   var elem_img = document.getElementById("img123");
   var url = elem_img.getAttribute("src");
@@ -290,6 +289,7 @@ function mostrar_filtro(){
   });
 }
 function mostrar_filtro_todos(){
+  alert("Esta operación puede tardar unos minutos. Espere, por favor.");
   var filtros = getFiltros();
   for(var archivo of archivos){
     uploadFile(archivo.url,archivo.nombre);
@@ -400,6 +400,11 @@ function mostrar_img(posicion){
   elem_revertir_img.setAttribute("src",archivos[posicion].org_url);
   elem_revertir_img.setAttribute("onclick","revertir_img("+posicion+")");
   elem_revertir_img_todos.setAttribute("onclick","revertir_img_todos("+posicion+")");
+  for(var mensaje of mensaje){
+    if(mensaje.img==archivos[posicion].nombre){
+      
+    }
+  }
 }
 //hacer botones de delante y atras
 function avance(num){
