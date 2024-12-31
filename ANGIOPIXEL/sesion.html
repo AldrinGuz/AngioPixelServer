@@ -91,17 +91,21 @@
 					<input type="button" value="Aplicar a todos" id="btn-aplicar" onclick="aplicar_todos()">
 					<input type="button" value="Reiniciar" id="btn-aplicar" onclick="revertir_modelos()">
 				</div>
+				<div class="buttons">
+					<input type="button" value="Clasificar" id="btn-enviar" onclick="enviar()">
+				</div>
 				<h2>Resultados</h2>
-				<div id="resultadoCNN"></div>
-				<div id="resultadoSVM"></div>
-				<div id="resultadoYolo"></div>
+				<div class="resultados">
+					<div id="resultadoCNN"></div>
+					<div id="resultadoSVM"></div>
+					<div id="resultadoYolo"></div>
+				</div>
 				<div class="buttons" id="export">
 					<p>Archivos</p>
 					<input type="button" value="Exportar" id="btn-aplicar" onclick="exportar_reg()">
 					<input type="button" value="Descargar" id="btn-aplicar" onclick="descargarImagenesComoZip()">
 				</div>
 				<div class="buttons">
-					<input type="button" value="Clasificar" id="btn-enviar" onclick="enviar()">
 					<input type="button" value="Volver" id="btn-volver" onclick="mover('sesion.html')">
 				</div>
 			</div>

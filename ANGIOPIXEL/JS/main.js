@@ -41,9 +41,8 @@ function guardar_reg(){
   var lastn = document.getElementById("lastname1").value;
   var user = document.getElementById("login").value;
   var pass = document.getElementById("pass2").value;
-  var cent = document.getElementById("center").value;
 
-  var usuario = {nombre: name, apellidos: lastn, login:user, password: pass, centro: cent};
+  var usuario = {nombre: name, apellidos: lastn, login:user, password: pass};
   //Se envía los datos
 
   rest.post("/user/register",usuario,function(estado,mensaje){
@@ -60,10 +59,20 @@ function guardar_reg(){
 /* Crea un enlace temporal con la finalidad de que el usuario pueda extraer sus resultados */
 function exportar_reg() {
   // Crea un contenido CSV
-  let contenidoCSV = 'Nombre,CNN,SVM,YOLO\n'; // Encabezados del archivo CSV
-
+  let contenidoCSV = 'Nombre,CNN,SVM,YOLO,Filtros\n'; // Encabezados del archivo CSV
+  
   for (var archivo of archivos) {
-    contenidoCSV += `${archivo.nombre},${archivo.CNN},${archivo.SVM},${archivo.YOLO}\n`;
+    var filtros = [];
+    for(var filtro of archivo.filtros){
+      if(filtro=="algoritmico.py"){
+        filtros.push("Algorítimico");
+      }if(filtro=="LoG.py"){
+        filtros.push("Laplacian of Gaussian");
+      }if(filtro=="gradiente.py"){
+        filtros.push("Gradiente");
+      }
+    }
+    contenidoCSV += `${archivo.nombre},${archivo.CNN},${archivo.SVM},${archivo.YOLO},${filtros}\n`;
   }
 
   // Crea un Blob con el contenido CSV
@@ -281,6 +290,11 @@ function mostrar_filtro(){
   var elem_img = document.getElementById("img123");
   var url = elem_img.getAttribute("src");
   var nombre = elem_img.getAttribute("class");
+  for(var archivo of archivos){
+    if(archivo.nombre==nombre){
+      archivo.filtros=filtros;
+    }
+  }
   uploadFile(url,nombre);
   console.log("Se ha guardado la img");
   llamada_filtros(nombre,filtros,function(resp){
@@ -293,6 +307,7 @@ function mostrar_filtro_todos(){
   var filtros = getFiltros();
   for(var archivo of archivos){
     uploadFile(archivo.url,archivo.nombre);
+    archivo.filtros=filtros;
   }
   for(var archivo of archivos){
     var nombre = archivo.nombre;
@@ -400,10 +415,39 @@ function mostrar_img(posicion){
   elem_revertir_img.setAttribute("src",archivos[posicion].org_url);
   elem_revertir_img.setAttribute("onclick","revertir_img("+posicion+")");
   elem_revertir_img_todos.setAttribute("onclick","revertir_img_todos("+posicion+")");
-  for(var mensaje of mensaje){
+  var check_filtro1 = document.getElementById("check-filtro1");
+  var check_filtro2 = document.getElementById("check-filtro2");
+  var check_filtro3 = document.getElementById("check-filtro3");
+  var check_modelo1 = document.getElementById("check-modelo1");
+  var check_modelo2 = document.getElementById("check-modelo2");
+  var check_modelo3 = document.getElementById("check-modelo3");
+  for(var filtro of archivos[posicion].filtros){
+    if(filtro=="algoritmico.py"){check_filtro1.checked=true;}
+    else{check_filtro1.checked=false;}
+    if(filtro=="LoG.py"){check_filtro2.checked=true;}
+    else{check_filtro2.checked=false;}
+    if(filtro=="gradiente.py"){check_filtro3.checked=true;}
+    else{check_filtro3.checked=false;}
+  }
+  if(archivos[posicion].filtros.length<1){
+    check_filtro1.checked=false;
+    check_filtro2.checked=false;
+    check_filtro3.checked=false;
+  }
+  for(var mensaje of mensajes){
     if(mensaje.img==archivos[posicion].nombre){
-      
+      if(mensaje.modelo=="CNN.py"){check_modelo1.checked=true;}
+      else{check_modelo1.checked=false;}
+      if(mensaje.modelo=="SVM.py"){check_modelo2.checked=true;}
+      else{check_modelo2.checked=false;}
+      if(mensaje.modelo=="yolo.py"){check_modelo3.checked=true;}
+      else{check_modelo3.checked=false;}
     }
+  }
+  if(mensajes.length<1){
+    check_modelo1.checked=false;
+    check_modelo2.checked=false;
+    check_modelo3.checked=false;
   }
 }
 //hacer botones de delante y atras

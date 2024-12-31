@@ -1,4 +1,15 @@
 Guía de uso de la página web AngioPixel.
+
+Para desplegar el proyecto en local necesitará tener node v22.11.0 y las dependencias en sus respectivas versiones (mire se package.json dependencies).
+consola: npm install express multer cors path fs
+
+También necesitará las librerías de python para los filtros y clasificadores.
+Python 3.10.0
+pip install scikit-image opencv-python-headless numpy pillow ultralytics keras tensorflow
+
+El comando para iniciar el servidor es:
+node servidor_rest.js
+
 1. Inicio.
 2. Registro de usuario.
 3. Página de sesión .
